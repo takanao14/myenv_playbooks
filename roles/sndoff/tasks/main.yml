@@ -1,0 +1,22 @@
+---
+- name: Turn off onboard sound
+  ansible.builtin.replace:
+    path: /boot/firmware/config.txt
+    regexp: '^dtparam=audio=on'
+    replace: 'dtparam=audio=off'
+  register: config_txt
+  become: true
+
+- name: Turn off snd_bcm2835
+  ansible.builtin.copy:
+    src: blacklist-rgb-matrix.conf
+    dest: /etc/modprobe.d/blacklist-rgb-matrix.conf
+    mode: '0644'
+  register: blacklist
+  become: true
+
+- name: Reboot
+  ansible.builtin.reboot:
+    msg: "Rebooting to apply changes"
+  when: config_txt.changed or blacklist.changed
+  become: true
