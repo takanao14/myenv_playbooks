@@ -1,0 +1,12 @@
+---
+- name: Download sheldon installer
+  ansible.builtin.get_url:
+    url: https://rossmacarthur.github.io/install/crate.sh
+    dest: /tmp/install_sheldon.sh
+    mode: '0755'
+
+- name: Install sheldon
+  ansible.builtin.command:
+    cmd: /tmp/install_sheldon.sh --repo rossmacarthur/sheldon --to {{ ansible_env.HOME }}/.local/bin
+  register: sheldon_install
+  changed_when: sheldon_install.rc == 0

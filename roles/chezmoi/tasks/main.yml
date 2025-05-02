@@ -1,0 +1,19 @@
+---
+- name: Download chezmoi installer
+  ansible.builtin.get_url:
+    url: https://get.chezmoi.io
+    dest: /tmp/install_chezmoi.sh
+    mode: '0755'
+
+- name: Create local bin directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: '0755'
+    recurse: true
+
+- name: Install chezmoi
+  ansible.builtin.command:
+    cmd: "/tmp/install_chezmoi.sh -b {{ ansible_env.HOME }}/.local/bin"
+  register: chezmoi_install
+  changed_when: chezmoi_install.rc == 0
