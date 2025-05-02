@@ -7,6 +7,6 @@
 
 - name: Install sheldon
   ansible.builtin.command:
-    cmd: /tmp/install_sheldon.sh --repo rossmacarthur/sheldon --to {{ ansible_env.HOME }}/.local/bin
+    cmd: /tmp/install_sheldon.sh -f --repo rossmacarthur/sheldon --to {{ ansible_env.HOME }}/.local/bin
   register: sheldon_install
   changed_when: sheldon_install.rc == 0
