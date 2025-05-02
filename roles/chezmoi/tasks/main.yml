@@ -17,3 +17,9 @@
     cmd: "/tmp/install_chezmoi.sh -b {{ ansible_env.HOME }}/.local/bin"
   register: chezmoi_install
   changed_when: chezmoi_install.rc == 0
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+  become: true
